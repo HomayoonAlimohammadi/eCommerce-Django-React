@@ -1,2 +1,1 @@
-# eCommerce-Django-React
-an eCommerce web app using Django and React.
+# eCommerce Web App with Django and React
