@@ -1,20 +1,25 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from .products import products
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
 
 
+@api_view(['GET'])
 def productList(request):
 
-    return JsonResponse(products, safe=False)
+    return Response(products)
 
 
+@api_view(['GET'])
 def productDetail(request, pk):
 
     for product in products:
         if int(product['_id']) == pk:
-            return JsonResponse(product, safe=False)
+            return Response(product)
 
-    return JsonResponse('Invalid Product ID', safe=False)
+    return Response('Invalid Product ID', status=status.HTTP_404_NOT_FOUND)
 
 
 
