@@ -17,7 +17,7 @@ function ProductScreen(props) {
         }
     
         fetchProduct(id)
-    }, [])
+    }, [id])
 
     return (
         <div>
