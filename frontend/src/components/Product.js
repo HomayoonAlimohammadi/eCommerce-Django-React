@@ -2,6 +2,7 @@ import {Card} from 'react-bootstrap'
 import React from 'react'
 import './Product.css'
 import Rating from './Rating.js'
+import { Link } from 'react-router-dom'
 
 
 function Product({ product }) {
@@ -9,17 +10,18 @@ function Product({ product }) {
         
         <Card className="my-3 p-3 product">
             <Card.Title>
-                <a href={`/products/${product._id}`}>
+                <Link to={`/products/${product._id}`}>
+
                 <Card.Img src={product.image} />
-                </a>
+                </Link>
             </Card.Title>
 
             <Card.Body>
-                <a href={`/products/${product._id}`}>
+                <Link to={`/products/${product._id}`}>
                 <Card.Title as='div'>
                     <strong>{product.name}</strong>
                 </Card.Title>
-                </a>
+                </Link>
 
                 <Card.Text as='div' className='my-5'>
                     <Rating 
