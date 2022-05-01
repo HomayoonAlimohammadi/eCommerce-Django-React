@@ -53,3 +53,19 @@ class Review(models.Model):
     createdAt = models.DateTimeField(auto_now_add=True)
 
 
+class Order(models.Model):
+
+    user = models.ForeignKey(User,
+                            related_name='orders',
+                            on_delete=models.CASCADE)
+
+    paymentMethod = models.CharField(max_length=128)
+    texPrice = models.DecimalField(max_digits=9, decimal_places=2)
+    shippingPrice = models.DecimalField(max_digits=9, decimal_places=2)
+    totalPrice = models.DecimalField(max_digits=10, decimal_places=2)
+    isPaid = models.BooleanField(default=False)
+    paidAt = models.DateTimeField(blank=True, null=True)
+    isDelivered = models.BooleanField(default=False)
+    deliveredAt = models.DateTimeField(blank=True, null=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
+    
