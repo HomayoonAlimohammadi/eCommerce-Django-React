@@ -12,8 +12,8 @@ class Product(models.Model):
 
     _id = models.AutoField(primary_key=True, editable=False)
     name = models.CharField(max_length=128)
-    # image = models.ImageField(upload_to='product_images/', 
-    #                           blank=True, null=True)
+    image = models.ImageField(upload_to='product/', 
+                              blank=True, null=True)
                             
     user = models.ForeignKey(User, null=True, blank=True,
                              related_name='products', 
@@ -35,6 +35,9 @@ class Product(models.Model):
     
     createdAt = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Review(models.Model):
 
@@ -53,6 +56,9 @@ class Review(models.Model):
     
     comment = models.TextField(blank=True, null=True)
     createdAt = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Order(models.Model):
@@ -78,6 +84,9 @@ class Order(models.Model):
 
     createdAt = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f'Order: {self._id}, total of: {self.totalPrice}'
+
 
 class OrderItem(models.Model):
 
@@ -96,6 +105,9 @@ class OrderItem(models.Model):
     price = models.DecimalField(default=0, max_digits=10, decimal_places=2)
     image = models.CharField(max_length=220, null=True, blank=True)
 
+    def __str__(self):
+        return self.name
+
 
 class ShippingAddress(models.Model):
     
@@ -108,3 +120,6 @@ class ShippingAddress(models.Model):
     postalCode = models.CharField(max_length=128)
     country = models.CharField(max_length=128)
     shippingPrice = models.DecimalField(max_digits=9, decimal_places=2)
+
+    def __str__(self):
+        return f'Shipping Address to: {self.city}, {self.country}'
