@@ -33,3 +33,23 @@ class Product(models.Model):
                                        validators=[MinValueValidator(0)])
     
     createdAt = models.DateTimeField(auto_now_add=True)
+
+
+class Review(models.Model):
+
+    user = models.ForeignKey(User,
+                            related_name='reviews',
+                            on_delete=models.CASCADE)
+
+    product = models.ForeignKey('Product', related_name='reviews',
+                                on_delete=models.CASCADE)
+
+    name = models.CharField(max_length=128)
+    rating = models.IntegerField(default=0,
+                                validators=[MinValueValidator(0),
+                                        MaxValueValidator(5)])
+    
+    comment = models.TextField(blank=True, null=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
+
+
