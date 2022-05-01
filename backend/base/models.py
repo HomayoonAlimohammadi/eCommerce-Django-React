@@ -10,26 +10,27 @@ User = get_user_model()
 
 class Product(models.Model):
 
+    _id = models.AutoField(primary_key=True, editable=False)
     name = models.CharField(max_length=128)
-    image = models.ImageField(upload_to='product_images/', 
-                              blank=True, null=True)
+    # image = models.ImageField(upload_to='product_images/', 
+    #                           blank=True, null=True)
                             
-    user = models.ForeignKey(User, 
+    user = models.ForeignKey(User, null=True, blank=True,
                              related_name='products', 
-                             on_delete=models.CASCADE)
+                             on_delete=models.SET_NULL)
 
     brand = models.CharField(max_length=128, blank=True, null=True)
     category = models.TextField(blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    rating = models.IntegerField(default=0,
+    rating = models.DecimalField(default=0, max_digits=7, decimal_places=2,
                                  validators=[MinValueValidator(0),
                                             MaxValueValidator(5)])
     
-    numReviews = models.IntegerField(default=0,
+    numReviews = models.IntegerField(default=0, blank=True, null=True,
                                      validators=[MinValueValidator(0)])
 
     price = models.DecimalField(max_digits=9, decimal_places=2)
-    countInStock = models.IntegerField(default=0, 
+    countInStock = models.IntegerField(default=0, blank=True, null=True, 
                                        validators=[MinValueValidator(0)])
     
     createdAt = models.DateTimeField(auto_now_add=True)
@@ -37,9 +38,10 @@ class Product(models.Model):
 
 class Review(models.Model):
 
-    user = models.ForeignKey(User,
+    _id = models.AutoField(primary_key=True, editable=False)
+    user = models.ForeignKey(User, null=True,
                             related_name='reviews',
-                            on_delete=models.CASCADE)
+                            on_delete=models.SET_NULL)
 
     product = models.ForeignKey('Product', related_name='reviews',
                                 on_delete=models.CASCADE)
@@ -55,26 +57,52 @@ class Review(models.Model):
 
 class Order(models.Model):
 
-    user = models.ForeignKey(User,
+    _id = models.AutoField(primary_key=True, editable=False)
+    user = models.ForeignKey(User, null=True,
                             related_name='orders',
-                            on_delete=models.CASCADE)
+                            on_delete=models.SET_NULL)
 
     paymentMethod = models.CharField(max_length=128)
-    texPrice = models.DecimalField(max_digits=9, decimal_places=2)
-    shippingPrice = models.DecimalField(max_digits=9, decimal_places=2)
-    totalPrice = models.DecimalField(max_digits=10, decimal_places=2)
+    texPrice = models.DecimalField(max_digits=9, decimal_places=2,
+                                null=True, blank=True)
+
+    shippingPrice = models.DecimalField(max_digits=9, decimal_places=2,
+                                null=True, blank=True)
+
+    totalPrice = models.DecimalField(max_digits=15, decimal_places=2)
     isPaid = models.BooleanField(default=False)
-    paidAt = models.DateTimeField(blank=True, null=True)
+    paidAt = models.DateTimeField(blank=True, null=True, auto_now_add=False)
     isDelivered = models.BooleanField(default=False)
-    deliveredAt = models.DateTimeField(blank=True, null=True)
+    deliveredAt = models.DateTimeField(blank=True, null=True, 
+                                        auto_now_add=False)
+
     createdAt = models.DateTimeField(auto_now_add=True)
+
+
+class OrderItem(models.Model):
+
+    _id = models.AutoField(primary_key=True, editable=False)
+    order = models.ForeignKey('Order', related_name='order_items',
+                                on_delete=models.SET_NULL, null=True)
+    
+    product = models.ForeignKey('Product', related_name='order_items',
+                                on_delete=models.CASCADE)
+    
+    name = models.CharField(max_length=128)
+    qty = models.IntegerField(default=0,
+                            validators=[MinValueValidator(0),
+                                        MaxValueValidator(9)])
+
+    price = models.DecimalField(default=0, max_digits=10, decimal_places=2)
+    image = models.CharField(max_length=220, null=True, blank=True)
 
 
 class ShippingAddress(models.Model):
     
+    _id = models.AutoField(primary_key=True, editable=False)
     order = models.OneToOneField('Order', related_name='shipping_address',
                                 on_delete=models.CASCADE)
-                                
+
     address = models.TextField()
     city = models.CharField(max_length=128)
     postalCode = models.CharField(max_length=128)
