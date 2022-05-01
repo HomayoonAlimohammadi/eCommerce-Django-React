@@ -68,4 +68,15 @@ class Order(models.Model):
     isDelivered = models.BooleanField(default=False)
     deliveredAt = models.DateTimeField(blank=True, null=True)
     createdAt = models.DateTimeField(auto_now_add=True)
+
+
+class ShippingAddress(models.Model):
     
+    order = models.OneToOneField('Order', related_name='shipping_address',
+                                on_delete=models.CASCADE)
+                                
+    address = models.TextField()
+    city = models.CharField(max_length=128)
+    postalCode = models.CharField(max_length=128)
+    country = models.CharField(max_length=128)
+    shippingPrice = models.DecimalField(max_digits=9, decimal_places=2)
