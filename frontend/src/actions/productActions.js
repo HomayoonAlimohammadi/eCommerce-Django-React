@@ -6,7 +6,7 @@ import {
 import axios from 'axios'
 
 
-const listProducts = () => async (dispatch) => {
+export const listProducts = () => async (dispatch) => {
 
     try{
 
@@ -15,7 +15,7 @@ const listProducts = () => async (dispatch) => {
             payload: []
         })
 
-        const {data} = axios.get('/api/products/')
+        const { data } = await axios.get('/api/products/')
 
         dispatch({
             type: PRODUCT_LIST_SUCCESS,
@@ -26,11 +26,9 @@ const listProducts = () => async (dispatch) => {
 
         dispatch({
             type: PRODUCT_LIST_FAIL,
-            payload: error.response && error.response.data.message
+            payload: error.response.data.message
             ? error.response.data.message
-            : error.reponse
+            : error.message
         })
     }
 }
-
-// export default listProducts
