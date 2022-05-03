@@ -6,7 +6,6 @@ import {
 
 export default cartReducer
 
-
 function cartReducer(state={cartItems: []}, action) {
 
     switch(action.type) {
