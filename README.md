@@ -24,12 +24,12 @@ Live Demo can be viewed at https://www.buildproshop.com/
 # Download & Setup Instructions
 
 * 1 - Clone project: git clone https://github.com/HomayoonAlimohammadi/eCommerce-Django-React
-* 2 - cd eCommerce-Django-React
-* 3 - Create virtual environment: python -m venv env
-* 4 - source env/bin/activate
-* 5 - pip install -r requirements.txt
-* 6 - python manage.py runserver
+* 2 - ```cd eCommerce-Django-React```
+* 3 - Create virtual environment: ``` python -m venv env ```
+* 4 - ```source env/bin/activate```
+* 5 - ```pip install -r requirements.txt```
+* 6 - ```python manage.py runserver```
 
 # Install react modules
-* 1 - cd frontend
-* 2 - npm install
+* 1 - ```cd frontend```
+* 2 - ```npm install```
