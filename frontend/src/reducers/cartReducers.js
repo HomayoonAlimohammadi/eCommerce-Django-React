@@ -36,8 +36,11 @@ function cartReducer(state={cartItems: []}, action) {
                 }
             }
 
-        // case CART_REMOVE_ITEM:
-        //     handle remove item
+        case CART_REMOVE_ITEM:
+            return {
+                ...state,
+                cartItems: state.cartItems.filter(x => x.productID !== action.payload)
+            }
 
         default:
             return state
