@@ -74,11 +74,11 @@ function CartScreen() {
                                     </Col>
                                     <Col md={1}>
                                         <Button 
-                                        type='button'
-                                        variant='light'
-                                        onClick={() => removeFromCartHandler(item.productID)}
+                                            type='button'
+                                            variant='light'
+                                            onClick={() => removeFromCartHandler(item.productID)}
                                         >
-                                            <i className='fas fa-trash'></i>
+                                            <i class="fa-solid fa-trash"></i>
                                         </Button>
                                     </Col>
                                 </Row>
