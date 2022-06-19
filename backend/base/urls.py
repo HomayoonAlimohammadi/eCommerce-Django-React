@@ -1,13 +1,12 @@
 from django.urls import path
-from . import views
+from base import views
 
 
-app_name = 'base'
+app_name = "base"
 urlpatterns = [
-    path('api/products/', views.productList, name='product-list'),
-    path('api/products/<int:pk>', views.productDetail, name='product-detail'),
-
-
+    path("api/users/login/", views.MyTokenObtainPairView.as_view(), name="user-login"),
+    path("api/products/", views.productList, name="product-list"),
+    path("api/products/<int:pk>", views.productDetail, name="product-detail"),
     # USE THIS URL ONLY ONCE, to generate Products for DB
     # path('api/products/addallproducts/', views.add_all_products),
 ]
