@@ -1,6 +1,6 @@
 from base.products import products
 from base.models import Product
-from base.serializers import ProductSerializer
+from base.serializers import ProductSerializer, UserSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -24,8 +24,9 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         data["refresh"] = str(refresh)
         data["access"] = str(refresh.access_token)
-        data["username"] = self.user.username
-        data["email"] = self.user.email
+        user_data = UserSerializer(self.user).data
+        for key, value in user_data.items():
+            data[key] = value
 
         return data
 
@@ -39,12 +40,11 @@ def productList(request):
 
     products = Product.objects.all()
     serializer = ProductSerializer(products, many=True)
-
     return Response(serializer.data)
 
 
 @api_view(["GET"])
-def productDetail(request, pk):
+def product_detail(request, pk):
 
     try:
         product = Product.objects.get(_id=pk)
@@ -53,6 +53,14 @@ def productDetail(request, pk):
 
     serializer = ProductSerializer(product)
 
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+def user_profile(request):
+    user = request.user
+    serializer = UserSerializer(user)
+    print(serializer)
     return Response(serializer.data)
 
 
