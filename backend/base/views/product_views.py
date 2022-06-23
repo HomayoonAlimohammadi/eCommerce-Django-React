@@ -1,38 +1,10 @@
-from base.products import products
-from base.models import Product
-from base.serializers import ProductSerializer, UserSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework_simplejwt.views import TokenObtainPairView
+from base.serializers import ProductSerializer
+from base.models import Product
 
-
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
-
-        token["username"] = user.username
-        token["email"] = user.email
-
-        return token
-
-    def validate(self, attrs):
-        data = super().validate(attrs)
-        refresh = self.get_token(self.user)
-
-        data["refresh"] = str(refresh)
-        data["access"] = str(refresh.access_token)
-        user_data = UserSerializer(self.user).data
-        for key, value in user_data.items():
-            data[key] = value
-
-        return data
-
-
-class MyTokenObtainPairView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
+from base.products import products
 
 
 @api_view(["GET"])
@@ -57,14 +29,6 @@ def product_detail(request, pk):
 
 
 @api_view(["GET"])
-def user_profile(request):
-    user = request.user
-    serializer = UserSerializer(user)
-    print(serializer)
-    return Response(serializer.data)
-
-
-@api_view(["GET"])
 def add_all_products(request):
     """
     Access this view ONLY ONCE
@@ -73,7 +37,6 @@ def add_all_products(request):
     """
 
     try:
-
         for product in products:
             id = product.pop("_id")
             print(f"Product id {id} was added")
@@ -82,7 +45,6 @@ def add_all_products(request):
         return Response("All products was added.")
 
     except Exception as e:
-
         print(e.__class__)
         print(e)
 

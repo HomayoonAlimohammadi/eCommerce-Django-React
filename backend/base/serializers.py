@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Product, User
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -32,3 +33,15 @@ class UserSerializer(serializers.ModelSerializer):
 
     # def get_is_admin(self, user_obj):
     #     return user_obj.is_staff
+
+
+class UserSerializerWithToken(UserSerializer):
+    token = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = ["_id", "is_admin", "username", "email", "name", "token"]
+
+    def get_token(self, user_obj):
+        token = RefreshToken.for_user(user_obj)
+        return str(token.access_token)
