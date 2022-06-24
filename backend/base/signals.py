@@ -10,4 +10,3 @@ User = get_user_model()
 def sync_username(sender, instance, *args, **kwargs):
     if instance.email:
         instance.username = instance.email
-    print("Synced user email and username")

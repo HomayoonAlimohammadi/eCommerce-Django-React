@@ -34,10 +34,31 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
-def user_profile(request):
+def get_user_profile(request):
     user = request.user
     serializer = UserSerializer(user)
-    print(serializer)
+    return Response(serializer.data)
+
+
+@api_view(["PUT", "PATCH"])
+@permission_classes([IsAuthenticated])
+def update_user_profile(request):
+    user = request.user
+    serializer = UserSerializerWithToken(user)
+    data = request.data
+    print(data)
+    if "name" in data:
+        user.first_name = data["name"]
+
+    if "email" in data:
+        user.email = data["email"]
+        user.username = data["email"]
+
+    if "password" in data:
+        user.set_password(data["password"])
+
+    user.save()
+
     return Response(serializer.data)
 
 

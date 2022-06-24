@@ -5,6 +5,8 @@ import HomeScreen from './screens/HomeScreen.js'
 import ProductScreen from './screens/ProductScreen.js'
 import CartScreen from './screens/CartScreen.js'
 import LoginScreen from './screens/LoginScreen.js'
+import RegisterScreen from './screens/RegisterScreen.js'
+
 import {BrowserRouter as Router,
         Route,
         Routes
@@ -20,6 +22,7 @@ function App() {
               <Routes>
                 <Route exact path='/' element={<HomeScreen />} />
                 <Route path='/login' element={<LoginScreen />} />
+                <Route path='/register' element={<RegisterScreen />} />
                 <Route path='/product/:id' element={<ProductScreen />} />
                 <Route path='/cart/:id' element={<CartScreen />} />
                 <Route path='/cart' element={<CartScreen />} />

@@ -6,7 +6,7 @@ import {
     productListReducer,
     productDetailsReducer,
 } from './reducers/productReducers.js'
-import { userLoginReducer } from './reducers/userReducer.js'
+import { userLoginReducer, userRegisterReducer } from './reducers/userReducer.js'
 
 
 const reducer = combineReducers({
@@ -14,6 +14,7 @@ const reducer = combineReducers({
     productDetails: productDetailsReducer,
     cart: cartReducer,
     userLogin: userLoginReducer,
+    userRegister: userRegisterReducer,
 })
 const middleware = [thunk]
 
