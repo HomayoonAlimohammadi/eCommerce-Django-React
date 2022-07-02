@@ -12,11 +12,13 @@ def add_order_items(request):
 
     user = request.user
     data = request.data
-    order_items = data.get("order_items", [])
-    if order_items:
+    order_items = data["orderItems"]
+
+    if not order_items:
         return Response(
             {"detail": "No order items"}, status=status.HTTP_400_BAD_REQUEST
         )
+
     order = Order.objects.create(
         user=user,
         paymentMethod=data.get("paymentMethod"),
@@ -27,10 +29,10 @@ def add_order_items(request):
 
     shipping = ShippingAddress.objects.create(
         order=order,
-        address=data.get("address"),
-        city=data.get("city"),
-        postalCode=data.get("postalCode"),
-        country=data.get("country"),
+        address=data["shippingAddress"].get("address"),
+        city=data["shippingAddress"].get("city"),
+        postalCode=data["shippingAddress"].get("postalCode"),
+        country=data["shippingAddress"].get("country"),
     )
 
     for item in order_items:

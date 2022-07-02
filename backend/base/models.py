@@ -75,7 +75,7 @@ class Order(models.Model):
     )
 
     paymentMethod = models.CharField(max_length=128)
-    texPrice = models.DecimalField(
+    taxPrice = models.DecimalField(
         max_digits=9, decimal_places=2, null=True, blank=True
     )
 
@@ -129,7 +129,6 @@ class ShippingAddress(models.Model):
     city = models.CharField(max_length=128)
     postalCode = models.CharField(max_length=128)
     country = models.CharField(max_length=128)
-    shippingPrice = models.DecimalField(max_digits=9, decimal_places=2)
 
     def __str__(self):
         return f"Shipping Address to: {self.city}, {self.country}"
