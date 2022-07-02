@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, User
+from .models import Product, User, ShippingAddress, OrderItem, Order
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
@@ -45,3 +45,43 @@ class UserSerializerWithToken(UserSerializer):
     def get_token(self, user_obj):
         token = RefreshToken.for_user(user_obj)
         return str(token.access_token)
+
+
+class OrderSerializer(serializers.ModelSerializer):
+
+    orders = serializers.SerializerMethodField(read_only=True)
+    shipping_address = serializers.SerializerMethodField(read_only=True)
+    user = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Order
+        fields = "__all__"
+
+    def get_orders(self, obj):
+        items = obj.orderitem_set.all()
+        serializer = OrderItemSerializer(items, many=True)
+        return serializer.data
+
+    def get_shipping_address(self, obj):
+        try:
+            address = ShippingAddressSerializer(obj.shippingAddress, many=False).data
+        except:
+            address = False
+        return
+
+    def get_user(self, obj):
+        user = obj.user
+        serializer = UserSerializer(user)
+        return serializer.data
+
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItem
+        fields = "__all__"
+
+
+class ShippingAddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ShippingAddress
+        fields = "__all__"
