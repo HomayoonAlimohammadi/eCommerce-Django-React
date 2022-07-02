@@ -9,8 +9,7 @@ import RegisterScreen from './screens/RegisterScreen.js'
 import ProfileScreen from './screens/ProfileScreen.js'
 import ShippingScreen from './screens/ShippingScreen.js'
 import PaymentScreen from './screens/PaymentScreen.js'
-
-
+import PlaceOrderScreen from './screens/PlaceOrderScreen.js'
 import {BrowserRouter as Router,
         Route,
         Routes
@@ -33,6 +32,7 @@ function App() {
                 <Route path='/product/:id' element={<ProductScreen />} />
                 <Route path='/cart/:id' element={<CartScreen />} />
                 <Route path='/cart' element={<CartScreen />} />
+                <Route path='/placeorder' element={<PlaceOrderScreen />} />
               </Routes>
             </Container>
           </main>
