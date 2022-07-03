@@ -34,7 +34,7 @@ def add_order_items(request):
         postalCode=data["shippingAddress"].get("postalCode"),
         country=data["shippingAddress"].get("country"),
     )
-
+    print(order.shipping_address)
     for item in order_items:
         product = Product.objects.get(_id=item.get("productID"))
 
@@ -52,3 +52,22 @@ def add_order_items(request):
     serializer = OrderSerializer(order)
 
     return Response(serializer.data)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def getOrderById(request, pk):
+
+    user = request.user
+    try:
+        order = Order.objects.get(_id=pk)
+    except:
+        return Response(
+            {"detail": "Invalid order id"}, status=status.HTTP_400_BAD_REQUEST
+        )
+
+    if user.is_staff or order.user == user:
+        serializer = OrderSerializer(order)
+        return Response(serializer.data)
+
+    return Response({"detail": "Not authorized."}, status=status.HTTP_401_UNAUTHORIZED)
