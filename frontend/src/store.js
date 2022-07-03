@@ -8,7 +8,7 @@ import {
 } from './reducers/productReducers.js'
 import { userLoginReducer, userRegisterReducer, userDetailsReducer,
          userUpdateProfileReducer } from './reducers/userReducer.js'
-import {orderCreateReducer, orderDetailsReducer} from './reducers/orderReducers.js'
+import {orderCreateReducer, orderDetailsReducer, orderPayReducer} from './reducers/orderReducers.js'
 
 
 const reducer = combineReducers({
@@ -21,6 +21,7 @@ const reducer = combineReducers({
     userUpdateProfile: userUpdateProfileReducer,
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,
+    orderPay: orderPayReducer,
 })
 const middleware = [thunk]
 

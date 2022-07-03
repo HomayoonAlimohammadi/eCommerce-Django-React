@@ -1,3 +1,4 @@
+from datetime import datetime
 from base.models import Order, OrderItem, Product, ShippingAddress
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
@@ -71,3 +72,20 @@ def getOrderById(request, pk):
         return Response(serializer.data)
 
     return Response({"detail": "Not authorized."}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(["PUT", "PATCH"])
+@permission_classes([IsAuthenticated])
+def updateOrderToPaid(request, pk):
+    try:
+        order = Order.objects.get(_id=pk)
+    except:
+        return Response({"details": "Invalid Order"}, status=status.HTTP_404_NOT_FOUND)
+
+    order.isPaid = True
+    order.paidAt = datetime.now()
+    order.save()
+
+    return Response(
+        {"success": "Order was paid successfully."}, status=status.HTTP_200_OK
+    )
